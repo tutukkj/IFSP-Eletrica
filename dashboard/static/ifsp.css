@@ -1,0 +1,45 @@
+/* Identidade IFSP: verde #2f9e41, vermelho #cd191e, preto e branco.
+   Referência: Manual de Aplicação da Marca dos Institutos Federais. */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&display=swap');
+:root{--green:#247a33;--green-dark:#195a27;--ifsp-green:#2f9e41;--ifsp-red:#cd191e;--ink:#202520;--muted:#59635b;--line:#dce4dd;--bg:#f5f7f5;--sidebar:260px}
+body,button,input,select{font-family:'Open Sans',Arial,sans-serif}
+h1,h2,h3,.kpi-value{font-family:'Open Sans',Arial,sans-serif}
+.sidebar{background:#fff;color:#344538;border-right:1px solid var(--line);border-top:5px solid var(--ifsp-green);padding:29px 20px 26px}
+.brand{display:block;margin:0;padding:15px 2px 20px;border-bottom:1px solid var(--line);letter-spacing:0}
+.brand img{display:block;width:100%;height:auto}
+.brand-caption{font-size:10px;line-height:1.7;font-weight:600;color:#536657;margin:15px 0 0;letter-spacing:1px;text-transform:uppercase}
+.side-label{margin:36px 12px 16px;color:#66796a;font-size:10px}
+.nav-link{font-size:12px;border-radius:5px;padding:13px 10px}
+.nav-link:hover{background:#f0f6f0;color:#195a27}
+.nav-link.active{background:#e8f3e9;color:#195a27;box-shadow:inset 3px 0 var(--ifsp-green);font-weight:700}
+.sidebar-note{border-color:#dce8dd;border-radius:6px;background:#f4f8f3;padding:18px 15px}
+.small-sun{color:var(--ifsp-green)}
+.sidebar-note h3{color:#23562c}.sidebar-note p{color:#526557}
+.side-footer{border-color:var(--line);color:#536657}.status-dot{background:#2f9e41}
+.topbar{border-bottom:2px solid #2f9e41;color:#526456;font-size:10px}
+.topbar-right{color:#38633f;font-weight:600}
+.eyebrow{letter-spacing:1.2px;color:#247a33}
+h1{font-size:28px;letter-spacing:-.8px}
+.button{border-radius:5px}.primary{background:#247a33;border-color:#247a33}.primary:hover{background:#195a27}
+.secondary{color:#285731}.secondary:hover{background:#edf5ed}
+.filters,.panel,.kpi{border-radius:6px}.filters{border-top:3px solid #2f9e41}
+.filters>label{color:#536657}.filters input[type=date],.filters select{background:#fff;color:#25352a}
+.quality-toggle span{color:#344b39}.quality-toggle small{color:#59635b}
+.kpi{border-top:3px solid #e0eae0}.kpi:first-child{border-top-color:#2f9e41}.kpi.alert{border-top-color:#cd191e}
+.kpi-icon{background:#eaf4e9;color:#247a33;border-radius:4px}
+.kpi.alert .kpi-icon{background:#fcebec;color:#a51519}
+.kpi-top{color:#506154}.kpi-value{color:#202820;font-weight:700;letter-spacing:-1px}
+.kpi-unit,.kpi-foot,.chart-description,.period-row,.muted{color:#59635b}
+.panel-tag{color:#58745d}.unit-tag{background:#f0f5ef;color:#506154;border-radius:3px}
+.notice{background:#edf6eb;border-color:#d7e8d3;color:#345c36}
+.notice.error{background:#fdf0f0;border-color:#ebcbce;color:#9c1a21}
+.badge{background:#eaf4e8;color:#285c2f}.badge.warning{background:#fbe9e9;color:#9c1a21}
+th{background:#eff5ee;color:#3f5b44}td{color:#344b39}
+.quality-panel{background:#fff}.quality-layout p,.quality-layout ul{color:#59635b}
+.quality-layout summary{color:#285c2f}
+footer{border-top:1px solid var(--line);margin-top:24px;color:#59635b}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline-color:#195a27}
+@media(max-width:1250px){:root{--sidebar:225px}.sidebar{padding:24px 16px}.brand-caption{font-size:9px}}
+@media(max-width:900px){:root{--sidebar:0px}.sidebar{padding:16px 22px;border-right:0;border-bottom:1px solid var(--line);gap:22px}.brand{border:0;padding:0;flex-shrink:0;width:215px}.brand-caption{display:none}.sidebar nav{flex-wrap:wrap;justify-content:flex-end}.nav-link{font-size:11px}.topbar{height:48px}}
+@media(max-width:600px){.sidebar{padding:16px;gap:12px;align-items:center}.brand{width:180px}.sidebar nav{gap:0}.nav-link{font-size:10px;padding:9px 8px}h1{font-size:23px}.topbar{font-size:8px}.kpi-value{font-size:24px}}
+@media(max-width:380px){.sidebar{flex-wrap:wrap}.brand{width:205px}.sidebar nav{justify-content:flex-start}}

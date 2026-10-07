@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>IFSP · Monitoramento solar e ambiental</title>
+  <link rel="icon" href="{{ url_for('static', filename='ifsp-symbol.svg') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='ifsp.css') }}">
+  <script defer src="{{ url_for('static', filename='vendor/chart.umd.min.js') }}"></script>
+  <script defer src="{{ url_for('static', filename='app.js') }}"></script>
+</head>
+<body>
+<aside class="sidebar">
+  <a class="brand" href="/" aria-label="Instituto Federal de São Paulo — início"><img src="{{ url_for('static', filename='ifsp-logo.png') }}" alt="Instituto Federal São Paulo" width="352" height="126"><p class="brand-caption">Monitoramento solar e ambiental</p></a>
+  <div class="side-label">MONITORAMENTO</div>
+  <nav aria-label="Navegação"><a class="nav-link active" href="#overview"><span>◫</span> Visão geral</a><a class="nav-link" href="#environment"><span>≋</span> Ambiente</a><a class="nav-link" href="#readings"><span>▦</span> Leituras</a><a class="nav-link" href="#quality"><span>◇</span> Qualidade dos dados</a></nav>
+  <div class="sidebar-note"><span class="small-sun">☀</span><h3>O contexto da energia</h3><p>Radiação, clima e condições de superfície em uma única visão.</p></div>
+  <div class="side-footer"><span class="status-dot"></span><span id="database-label">Conectando ao banco</span></div>
+</aside>
+<main id="overview">
+  <header class="topbar"><span>IFSP <span class="breadcrumb">/</span> ESTAÇÃO METEOROLÓGICA</span><span class="topbar-right">Instituto Federal de São Paulo</span></header>
+  <section class="heading"><div><div class="eyebrow">MONITORAMENTO SOLAR E AMBIENTAL</div><h1>Visão geral da estação</h1><p>Explore as condições solares e ambientais ao longo do tempo.</p></div><a class="button secondary" id="export" href="#" aria-disabled="true">↓ &nbsp; Exportar CSV</a></section>
+  <div id="notice" class="notice" role="status" aria-live="polite">Conectando à fonte de dados…</div>
+  <form id="filters" class="filters" aria-label="Filtros da dashboard">
+    <label>Estação<select id="station" name="station" required><option value="">Carregando…</option></select></label>
+    <label>De<input id="start" name="start" type="date" required></label>
+    <label>Até<input id="end" name="end" type="date" required></label>
+    <label>Agregação<select id="interval" name="interval"><option value="auto">Automática</option><option value="minute">Por minuto</option><option value="15min">A cada 15 min</option><option value="hour">Por hora</option><option value="day">Por dia</option></select></label>
+    <label class="quality-toggle"><input type="checkbox" id="clean" name="clean" checked><span>Filtrar suspeitos<small>Somente nos indicadores e gráficos</small></span></label>
+    <button class="button primary" type="submit" id="apply">Aplicar filtros <span>→</span></button>
+  </form>
+  <div class="period-row"><span><span class="status-dot"></span> <span id="coverage">Aguardando leituras</span></span><span id="aggregation-label">Médias por intervalo</span></div>
+  <section id="kpis" class="kpis" aria-label="Indicadores do período"></section>
+  <section class="chart-grid primary-grid" aria-label="Gráficos solares e de temperatura">
+    <article class="panel solar-panel"><div class="panel-heading"><div><span class="panel-tag">RECURSO SOLAR</span><h2>Radiação ao longo do tempo</h2></div><span class="unit-tag">W/m²*</span></div><p class="chart-description">Compare os três canais de radiação da estação.</p><div class="chart-wrap large"><canvas id="solar-chart" role="img" aria-label="Série temporal dos três canais de radiação solar"></canvas></div></article>
+    <article class="panel"><div class="panel-heading"><div><span class="panel-tag">CONDIÇÕES TÉRMICAS</span><h2>Temperaturas</h2></div><span class="unit-tag">°C*</span></div><p class="chart-description">Ambiente, contato e ponto de orvalho.</p><div class="chart-wrap large"><canvas id="temperature-chart" role="img" aria-label="Séries de temperaturas ambiente, contato e ponto de orvalho"></canvas></div></article>
+  </section>
+  <section id="environment" class="section-title"><div><h2>Condições ambientais</h2><p>Os fatores que acompanham a disponibilidade solar.</p></div><span class="muted">Mesmos filtros, mesma fonte</span></section>
+  <section class="chart-grid secondary-grid" aria-label="Gráficos ambientais">
+    <article class="panel"><div class="panel-heading"><h2>Umidade relativa</h2><span class="unit-tag">%*</span></div><div class="chart-wrap"><canvas id="humidity-chart" role="img" aria-label="Umidade relativa ao longo do tempo"></canvas></div></article>
+    <article class="panel"><div class="panel-heading"><h2>Pressão atmosférica</h2><span class="unit-tag">hPa*</span></div><div class="chart-wrap"><canvas id="pressure-chart" role="img" aria-label="Pressão atmosférica ao longo do tempo"></canvas></div></article>
+    <article class="panel"><div class="panel-heading"><h2>Velocidade do vento</h2><span class="unit-tag">Unidade não informada</span></div><div class="chart-wrap"><canvas id="wind-chart" role="img" aria-label="Velocidades média e de rajada ao longo do tempo"></canvas></div></article>
+    <article class="panel"><div class="panel-heading"><h2>Albedo</h2><span class="unit-tag">Razão</span></div><p class="chart-description">Visão filtrada: Solar1 ≥ 20 e albedo entre 0 e 1.</p><div class="chart-wrap"><canvas id="albedo-chart" role="img" aria-label="Albedo ao longo do tempo"></canvas></div></article>
+  </section>
+  <section id="readings" class="panel readings-panel"><div class="panel-heading"><div><span class="panel-tag">EXPLORAÇÃO DOS DADOS</span><h2>Leituras da estação</h2></div><span class="unit-tag">Valores originais</span></div><p class="chart-description">Registros mais recentes primeiro. A filtragem de suspeitos não altera esta tabela nem o CSV.</p><div class="table-scroll"><table><thead id="table-head"></thead><tbody id="table-body"></tbody></table></div><div class="pagination"><span id="page-label">Nenhum registro</span><div><button id="previous" class="button secondary" disabled>← Anterior</button><button id="next" class="button secondary" disabled>Próxima →</button></div></div></section>
+  <section id="quality" class="panel quality-panel"><div class="panel-heading"><div><span class="panel-tag">TRANSPARÊNCIA DA FONTE</span><h2>Qualidade e interpretação</h2></div><span class="unit-tag">Dados preservados</span></div><div class="quality-layout"><div><h3>Como os indicadores são calculados</h3><p>As médias e os extremos respeitam o período e a estação selecionados. Cada variável tem seu próprio conjunto de valores válidos; valores excluídos aparecem como ausências nos gráficos.</p><p id="precipitation-note">Precipitação absoluta: aguardando dados.</p><p id="validity-note"></p><p>As marcações de qualidade sinalizam condições suspeitas ou inadequadas para uma métrica. Elas não confirmam defeito no equipamento.</p></div><div><details><summary>Regras de filtragem e unidades</summary><ul id="quality-rules"></ul></details><details><summary>Dicionário dos campos</summary><div class="table-scroll"><table class="dictionary"><thead><tr><th>Campo</th><th>Descrição</th><th>Unidade</th></tr></thead><tbody id="dictionary"></tbody></table></div></details><p class="source-note">Fonte: planilha importada em <code>sensor_readings</code>. Não há medições elétricas de tensão, corrente, potência ou energia.</p></div></div></section>
+  <footer>* Unidades presumidas, pendentes de confirmação dos sensores. Horários conforme a planilha original. <span>IFSP · Monitoramento solar e ambiental</span></footer>
+</main>
+</body>
+</html>
