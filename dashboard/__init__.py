@@ -4,6 +4,7 @@ import click
 from dotenv import load_dotenv
 from flask import Flask, jsonify, render_template
 from sqlalchemy.exc import SQLAlchemyError
+from werkzeug.middleware.proxy_fix import ProxyFix
 from .database import make_engine, metadata
 
 
@@ -11,6 +12,9 @@ def create_app():
     project = Path(__file__).resolve().parent.parent
     load_dotenv(project / '.env')
     app = Flask(__name__, instance_path=str(project / 'instance'))
+    # O Render encerra HTTPS no proxy e encaminha a requisição ao Gunicorn.
+    # Confia em exatamente um proxy para reconstruir esquema, host e IP.
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
     Path(app.instance_path).mkdir(exist_ok=True)
     url = os.getenv('DATABASE_URL') or f'sqlite:///{(Path(app.instance_path) / "monitoramento.sqlite").as_posix()}'
     if url.startswith('postgres://'):
@@ -24,6 +28,10 @@ def create_app():
     @app.get('/')
     def index():
         return render_template('index.html')
+
+    @app.get('/health')
+    def health():
+        return jsonify(status='ok')
 
     @app.errorhandler(SQLAlchemyError)
     def database_error(exc):
